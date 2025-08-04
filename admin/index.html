@@ -1,25 +1,621 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager - Shi Photonics Group</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Content Manager - Shi Photonics Group</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .admin-section {
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .section-content {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1e3c72;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #28a745;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .content-preview {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .instructions {
+            background: #e8f5e8;
+            border: 1px solid #28a745;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .instructions h3 {
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .output-code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .copy-btn {
+            background: #2a5298;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+    </style>
 </head>
 <body>
-  <!-- Include the script that builds the page and powers Netlify CMS -->
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
-  
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
+    <div class="header">
+        <h1>🔧 Simple Content Manager</h1>
+        <p>Easy content management for your research website</p>
+    </div>
+
+    <div class="container">
+        <div class="instructions">
+            <h3>📋 How This Works:</h3>
+            <ol>
+                <li><strong>Fill out the forms below</strong> with your content</li>
+                <li><strong>Copy the generated code</strong> from each section</li>
+                <li><strong>Replace the placeholder text</strong> in your GitHub files</li>
+                <li><strong>Your website updates automatically!</strong></li>
+            </ol>
+            <p><strong>💡 Tip:</strong> You can bookmark this page and come back anytime to update content.</p>
+        </div>
+
+        <!-- PI Information -->
+        <div class="admin-section">
+            <div class="section-header">
+                👨‍🔬 Principal Investigator Information
+            </div>
+            <div class="section-content">
+                <div class="grid">
+                    <div>
+                        <div class="form-group">
+                            <label for="pi-name">Full Name</label>
+                            <input type="text" id="pi-name" placeholder="Dr. Your Name" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pi-title">Title</label>
+                            <input type="text" id="pi-title" placeholder="Professor of Physics" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pi-email">Email</label>
+                            <input type="email" id="pi-email" placeholder="name@university.edu" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pi-office">Office Location</label>
+                            <input type="text" id="pi-office" placeholder="Science Building, Room 123" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pi-phone">Phone</label>
+                            <input type="text" id="pi-phone" placeholder="(555) 123-4567" />
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="form-group">
+                            <label for="pi-bio">Biography</label>
+                            <textarea id="pi-bio" placeholder="Add your biography, education, research background, and career highlights..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pi-interests">Research Interests (one per line)</label>
+                            <textarea id="pi-interests" placeholder="Metamaterials and optical metasurfaces&#10;Plasmonic devices for sensing&#10;Quantum nanophotonics&#10;Nonlinear optical phenomena"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="generatePICode()">Generate PI Code</button>
+                
+                <div id="pi-output" style="display: none;">
+                    <h4 style="margin: 2rem 0 1rem 0;">📋 Copy this code and replace the PI section in your index.html:</h4>
+                    <div class="output-code" id="pi-code"></div>
+                    <button class="copy-btn" onclick="copyToClipboard('pi-code')">Copy Code</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- News Management -->
+        <div class="admin-section">
+            <div class="section-header">
+                📰 News & Updates
+            </div>
+            <div class="section-content">
+                <div class="form-group">
+                    <label for="news-date">Date</label>
+                    <input type="date" id="news-date" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="news-title">News Title</label>
+                    <input type="text" id="news-title" placeholder="Grant awarded, paper published, etc." />
+                </div>
+                
+                <div class="form-group">
+                    <label for="news-details">Details</label>
+                    <textarea id="news-details" placeholder="Full description of the news item with details..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="news-featured">
+                        <input type="checkbox" id="news-featured" checked /> Featured on homepage
+                    </label>
+                </div>
+                
+                <button class="btn" onclick="addNewsItem()">Add News Item</button>
+                
+                <div id="news-list" style="margin-top: 2rem;"></div>
+                
+                <div id="news-output" style="display: none;">
+                    <h4 style="margin: 2rem 0 1rem 0;">📋 Copy this code for your news section:</h4>
+                    <div class="output-code" id="news-code"></div>
+                    <button class="copy-btn" onclick="copyToClipboard('news-code')">Copy Code</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Members -->
+        <div class="admin-section">
+            <div class="section-header">
+                👥 Team Members
+            </div>
+            <div class="section-content">
+                <div class="grid">
+                    <div>
+                        <div class="form-group">
+                            <label for="member-name">Name</label>
+                            <input type="text" id="member-name" placeholder="Dr. Jane Smith" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-role">Role</label>
+                            <select id="member-role">
+                                <option value="Postdoctoral Researcher">Postdoctoral Researcher</option>
+                                <option value="Ph.D. Student">Ph.D. Student</option>
+                                <option value="M.S. Student">M.S. Student</option>
+                                <option value="Undergraduate Researcher">Undergraduate Researcher</option>
+                                <option value="Research Scientist">Research Scientist</option>
+                                <option value="Visiting Scholar">Visiting Scholar</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="form-group">
+                            <label for="member-research">Research Focus</label>
+                            <textarea id="member-research" placeholder="Describe their research interests and current projects..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="addTeamMember()">Add Team Member</button>
+                
+                <div id="team-list" style="margin-top: 2rem;"></div>
+                
+                <div id="team-output" style="display: none;">
+                    <h4 style="margin: 2rem 0 1rem 0;">📋 Copy this code for your team section:</h4>
+                    <div class="output-code" id="team-code"></div>
+                    <button class="copy-btn" onclick="copyToClipboard('team-code')">Copy Code</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Publications -->
+        <div class="admin-section">
+            <div class="section-header">
+                📚 Publications
+            </div>
+            <div class="section-content">
+                <div class="grid">
+                    <div>
+                        <div class="form-group">
+                            <label for="pub-title">Paper Title</label>
+                            <input type="text" id="pub-title" placeholder="Your Research Paper Title" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pub-authors">Authors</label>
+                            <input type="text" id="pub-authors" placeholder="Author 1, Author 2, Your Name" />
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="form-group">
+                            <label for="pub-journal">Journal & Details</label>
+                            <input type="text" id="pub-journal" placeholder="Nature Physics 21, 123-130 (2025)" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pub-link">DOI/Link (optional)</label>
+                            <input type="text" id="pub-link" placeholder="https://doi.org/10.1038/..." />
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="addPublication()">Add Publication</button>
+                
+                <div id="pub-list" style="margin-top: 2rem;"></div>
+                
+                <div id="pub-output" style="display: none;">
+                    <h4 style="margin: 2rem 0 1rem 0;">📋 Copy this code for your publications section:</h4>
+                    <div class="output-code" id="pub-code"></div>
+                    <button class="copy-btn" onclick="copyToClipboard('pub-code')">Copy Code</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global storage
+        let newsItems = [];
+        let teamMembers = [];
+        let publications = [];
+
+        // Set today's date as default
+        document.getElementById('news-date').valueAsDate = new Date();
+
+        // PI Code Generation
+        function generatePICode() {
+            const name = document.getElementById('pi-name').value || '[Your Name]';
+            const title = document.getElementById('pi-title').value || '[Your Title]';
+            const email = document.getElementById('pi-email').value || '[your-email@university.edu]';
+            const office = document.getElementById('pi-office').value || '[Office Location]';
+            const phone = document.getElementById('pi-phone').value || '[Phone Number]';
+            const bio = document.getElementById('pi-bio').value || 'Add your biography here...';
+            const interests = document.getElementById('pi-interests').value || 'Add research interests...';
+            
+            const interestsList = interests.split('\n').filter(i => i.trim()).map(i => `<li>${i.trim()}</li>`).join('\n                        ');
+            
+            const code = `                    <h3 style="color: #1e3c72; font-size: 2rem; margin-bottom: 1rem;">${name}</h3>
+                    <p style="color: #666; font-size: 1.1rem; margin-bottom: 1rem;">${title}</p>
+                    
+                    <h4 style="color: #1e3c72; margin: 2rem 0 1rem 0;">Biography</h4>
+                    <p style="margin-bottom: 1rem;">${bio}</p>
+                    
+                    <h4 style="color: #1e3c72; margin: 2rem 0 1rem 0;">Research Interests</h4>
+                    <ul style="margin-bottom: 1rem;">
+                        ${interestsList}
+                    </ul>
+                    
+                    <h4 style="color: #1e3c72; margin: 2rem 0 1rem 0;">Contact</h4>
+                    <p>Email: ${email}<br>
+                    Office: ${office}<br>
+                    Phone: ${phone}</p>`;
+            
+            document.getElementById('pi-code').textContent = code;
+            document.getElementById('pi-output').style.display = 'block';
         }
-      });
-    }
-  </script>
+
+        // News Management
+        function addNewsItem() {
+            const date = document.getElementById('news-date').value;
+            const title = document.getElementById('news-title').value;
+            const details = document.getElementById('news-details').value;
+            const featured = document.getElementById('news-featured').checked;
+            
+            if (!title.trim()) {
+                alert('Please enter a news title');
+                return;
+            }
+            
+            const newsItem = { date, title, details, featured };
+            newsItems.push(newsItem);
+            
+            updateNewsDisplay();
+            generateNewsCode();
+            
+            // Clear form
+            document.getElementById('news-title').value = '';
+            document.getElementById('news-details').value = '';
+            document.getElementById('news-featured').checked = true;
+        }
+
+        function updateNewsDisplay() {
+            const container = document.getElementById('news-list');
+            container.innerHTML = '<h4>Added News Items:</h4>';
+            
+            newsItems.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'content-preview';
+                div.innerHTML = `
+                    <strong>${item.title}</strong> - ${item.date} ${item.featured ? '(Featured)' : ''}
+                    <br><small>${item.details}</small>
+                    <button onclick="removeNews(${index})" style="float: right; background: #dc3545; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;">Remove</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function removeNews(index) {
+            newsItems.splice(index, 1);
+            updateNewsDisplay();
+            generateNewsCode();
+        }
+
+        function generateNewsCode() {
+            if (newsItems.length === 0) {
+                document.getElementById('news-output').style.display = 'none';
+                return;
+            }
+            
+            const newsHTML = newsItems.map(item => `                    <div class="news-item">
+                        <div class="news-date">${formatDate(item.date)}</div>
+                        <p><strong>${item.title}</strong></p>
+                        ${item.details ? `<p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">${item.details}</p>` : ''}
+                    </div>`).join('\n');
+            
+            document.getElementById('news-code').textContent = newsHTML;
+            document.getElementById('news-output').style.display = 'block';
+        }
+
+        // Team Members
+        function addTeamMember() {
+            const name = document.getElementById('member-name').value;
+            const role = document.getElementById('member-role').value;
+            const research = document.getElementById('member-research').value;
+            
+            if (!name.trim()) {
+                alert('Please enter member name');
+                return;
+            }
+            
+            const member = { name, role, research };
+            teamMembers.push(member);
+            
+            updateTeamDisplay();
+            generateTeamCode();
+            
+            // Clear form
+            document.getElementById('member-name').value = '';
+            document.getElementById('member-research').value = '';
+        }
+
+        function updateTeamDisplay() {
+            const container = document.getElementById('team-list');
+            container.innerHTML = '<h4>Added Team Members:</h4>';
+            
+            teamMembers.forEach((member, index) => {
+                const div = document.createElement('div');
+                div.className = 'content-preview';
+                div.innerHTML = `
+                    <strong>${member.name}</strong> - ${member.role}
+                    <br><small>${member.research}</small>
+                    <button onclick="removeMember(${index})" style="float: right; background: #dc3545; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;">Remove</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function removeMember(index) {
+            teamMembers.splice(index, 1);
+            updateTeamDisplay();
+            generateTeamCode();
+        }
+
+        function generateTeamCode() {
+            if (teamMembers.length === 0) {
+                document.getElementById('team-output').style.display = 'none';
+                return;
+            }
+            
+            const teamHTML = teamMembers.map(member => {
+                const initials = member.name.split(' ').map(n => n[0]).join('');
+                return `                <div class="member-card">
+                    <div class="member-photo">${initials}</div>
+                    <h3 style="color: #1e3c72;">${member.name}</h3>
+                    <p style="color: #666; margin-bottom: 1rem;">${member.role}</p>
+                    <p>${member.research}</p>
+                </div>`;
+            }).join('\n');
+            
+            document.getElementById('team-code').textContent = teamHTML;
+            document.getElementById('team-output').style.display = 'block';
+        }
+
+        // Publications
+        function addPublication() {
+            const title = document.getElementById('pub-title').value;
+            const authors = document.getElementById('pub-authors').value;
+            const journal = document.getElementById('pub-journal').value;
+            const link = document.getElementById('pub-link').value;
+            
+            if (!title.trim()) {
+                alert('Please enter publication title');
+                return;
+            }
+            
+            const pub = { title, authors, journal, link };
+            publications.push(pub);
+            
+            updatePubDisplay();
+            generatePubCode();
+            
+            // Clear form
+            document.getElementById('pub-title').value = '';
+            document.getElementById('pub-authors').value = '';
+            document.getElementById('pub-journal').value = '';
+            document.getElementById('pub-link').value = '';
+        }
+
+        function updatePubDisplay() {
+            const container = document.getElementById('pub-list');
+            container.innerHTML = '<h4>Added Publications:</h4>';
+            
+            publications.forEach((pub, index) => {
+                const div = document.createElement('div');
+                div.className = 'content-preview';
+                div.innerHTML = `
+                    <strong>${pub.title}</strong>
+                    <br><small>${pub.authors} - ${pub.journal}</small>
+                    <button onclick="removePub(${index})" style="float: right; background: #dc3545; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;">Remove</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function removePub(index) {
+            publications.splice(index, 1);
+            updatePubDisplay();
+            generatePubCode();
+        }
+
+        function generatePubCode() {
+            if (publications.length === 0) {
+                document.getElementById('pub-output').style.display = 'none';
+                return;
+            }
+            
+            const pubHTML = publications.map(pub => `            <div class="publication">
+                <div class="publication-title">${pub.title}</div>
+                <div class="publication-authors">${pub.authors}</div>
+                <div class="publication-journal">${pub.journal}</div>
+            </div>`).join('\n');
+            
+            document.getElementById('pub-code').textContent = pubHTML;
+            document.getElementById('pub-output').style.display = 'block';
+        }
+
+        // Utility functions
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const months = ['January', 'February', 'March', 'April', 'May', 'June',
+                          'July', 'August', 'September', 'October', 'November', 'December'];
+            return `${months[date.getMonth()]} ${date.getFullYear()}`;
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Code copied to clipboard!');
+            });
+        }
+    </script>
 </body>
 </html>
