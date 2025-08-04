@@ -1,0 +1,87 @@
+# Netlify CMS Configuration
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+collections:
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General Settings"
+        name: "general"
+        file: "_data/settings.yml"
+        fields:
+          - {label: "Site Title", name: "site_title", widget: "string", default: "Shi Photonics Group"}
+          - {label: "Tagline", name: "tagline", widget: "string"}
+          - {label: "University", name: "university", widget: "string"}
+          - {label: "Department", name: "department", widget: "string"}
+          - {label: "Contact Email", name: "contact_email", widget: "string"}
+          - {label: "Phone", name: "phone", widget: "string"}
+          - {label: "Address", name: "address", widget: "text"}
+
+  - name: "news"
+    label: "News & Updates"
+    folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Featured on Homepage", name: "featured", widget: "boolean", default: true}
+      - {label: "Content", name: "body", widget: "markdown"}
+
+  - name: "team"
+    label: "Team Members"
+    folder: "_team"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Name", name: "name", widget: "string"}
+      - {label: "Role", name: "role", widget: "select", options: ["Principal Investigator", "Postdoctoral Researcher", "Ph.D. Student", "M.S. Student", "Undergraduate Researcher", "Research Scientist", "Visiting Scholar"]}
+      - {label: "Photo", name: "photo", widget: "image", required: false}
+      - {label: "Email", name: "email", widget: "string", required: false}
+      - {label: "Research Focus", name: "research", widget: "text"}
+      - {label: "Biography", name: "bio", widget: "markdown", required: false}
+      - {label: "Order", name: "order", widget: "number", default: 10}
+
+  - name: "publications"
+    label: "Publications"
+    folder: "_publications"
+    create: true
+    slug: "{{year}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Authors", name: "authors", widget: "string"}
+      - {label: "Journal", name: "journal", widget: "string"}
+      - {label: "Year", name: "year", widget: "number"}
+      - {label: "Volume", name: "volume", widget: "string", required: false}
+      - {label: "Pages", name: "pages", widget: "string", required: false}
+      - {label: "DOI/Link", name: "link", widget: "string", required: false}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false}
+
+  - name: "research"
+    label: "Research Projects"
+    folder: "_research"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Icon", name: "icon", widget: "select", options: ["🔬", "💎", "🌟", "📡", "🎯", "🤖", "⚡", "🔧", "📊", "🧪"]}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Image", name: "image", widget: "image", required: false}
+      - {label: "Order", name: "order", widget: "number", default: 10}
+
+  - name: "positions"
+    label: "Open Positions"
+    folder: "_positions"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Duration", name: "duration", widget: "string"}
+      - {label: "Requirements", name: "requirements", widget: "text"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Active", name: "active", widget: "boolean", default: true}
