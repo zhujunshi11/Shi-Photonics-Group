@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shi Photonics Group</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fafafa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .header-content h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header-content p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        main {
+            padding: 3rem 0;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #1e3c72;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        /* Welcome Section */
+        .welcome-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .highlights {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .news {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .news h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .news-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-date {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .news-more-link {
+            color: #2a5298;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .news-more-link:hover {
+            color: #1e3c72;
+        }
+
+        /* Members Grid */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .member-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        /* PI Section */
+        .pi-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .pi-photo {
+            width: 200px;
+            height: 250px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            font-weight: bold;
+        }
+
+        /* Publications */
+        .publication {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid #2a5298;
+        }
+
+        .publication-title {
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .publication-authors {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .publication-journal {
+            color: #2a5298;
+            font-weight: 500;
+        }
+
+        /* Research Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+
+        /* News Archive */
+        .news-archive-item {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid #2a5298;
+            transition: transform 0.3s ease;
+        }
+        
+        .news-archive-item:hover {
+            transform: translateY(-2px);
+        }
+        
+        .news-archive-date {
+            color: #2a5298;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .news-archive-text {
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .year-filter {
+            background: white;
+            border: 2px solid #e0e0e0;
+            color: #666;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .year-filter:hover, .year-filter.active {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border-color: #2a5298;
+        }
+
+        /* Openings */
+        .opening-card {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-left: 4px solid #2a5298;
+        }
+
+        .opening-title {
+            color: #1e3c72;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .welcome-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pi-section {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .header-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Shi Photonics Group</h1>
+                <p>Advancing nanophotonics research and applications</p>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="#welcome" class="nav-link active">Welcome</a></li>
+                    <li><a href="#pi" class="nav-link">PI</a></li>
+                    <li><a href="#members" class="nav-link">Members</a></li>
+                    <li><a href="#publications" class="nav-link">Publications</a></li>
+                    <li><a href="#research" class="nav-link">Research</a></li>
+                    <li><a href="#news" class="nav-link">News</a></li>
+                    <li><a href="#join" class="nav-link">Join</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Welcome Section -->
+        <section id="welcome" class="section active">
+            <div class="welcome-grid">
+                <div class="highlights">
+                    <h2 class="section-title">Research Highlights</h2>
+                    <p>Our research group focuses on the fundamental understanding and applications of nanophotonics, exploring how light interacts with matter at the nanoscale. We develop novel optical metamaterials, plasmonic devices, and quantum photonic systems that push the boundaries of what's possible with light.</p>
+                    
+                    <h3 style="color: #1e3c72; margin: 2rem 0 1rem 0;">Key Research Areas:</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">🔬 Metamaterials and Metasurfaces</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">💎 Plasmonic Nanostructures</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">🌟 Quantum Nanophotonics</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">📡 Optical Antennas</li>
+                        <li style="padding: 0.5rem 0;">🎯 Nonlinear Optics</li>
+                    </ul>
+                </div>
+                
+                <div class="news">
+                    <h3>Latest News</h3>
+                    <div class="news-item">
+                        <div class="news-date">August 2025</div>
+                        <p>Website launched with new design and features</p>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-date">Coming Soon</div>
+                        <p>Add your latest research updates and announcements here</p>
+                    </div>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <a href="#news" class="news-more-link nav-link" style="text-decoration: none;">View All News →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PI Section -->
+        <section id="pi" class="section">
+            <h2 class="section-title">Principal Investigator</h2>
+            <div class="pi-section">
+                <div class="pi-photo">PI</div>
+                <div>
+                    <h3 style="color: #1e3c72; font-size: 2rem; margin-bottom: 1rem;">Dr. [Your Name]</h3>
+                    <p style="color: #666; font-size: 1.1rem; margin-bottom: 1rem;">Professor of [Department]</p>
+                    
+                    <h4 style="color: #1e3c72; margin: 2rem 0 1rem 0;">Biography</h4>
+                    <p style="margin-bottom: 1rem;">Add your biography here - education, previous positions, major achievements, research interests, and career highlights.</p>
+                    
+                    <h4 style="color: #1e3c72; margin: 2rem 0 1rem 0;">Research Interests</h4>
+                    <ul style="margin-bottom: 1rem;">
+                        <li>Metamaterials and optical metasurfaces</li>
+                        <li>Plasmonic devices for sensing applications</li>
+                        <li>Quantum nanophotonics</li>
+                        <li>Nonlinear optical phenomena</li>
+                    </ul>
+                    
+                    <h4 style="color: #1e3c72; margin: 2rem 0 1rem 0;">Contact</h4>
+                    <p>Email: [your-email@university.edu]<br>
+                    Office: [Office Location]<br>
+                    Phone: [Phone Number]</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Members Section -->
+        <section id="members" class="section">
+            <h2 class="section-title">Group Members</h2>
+            <div class="members-grid">
+                <div class="member-card">
+                    <div class="member-photo">PD</div>
+                    <h3 style="color: #1e3c72;">[Postdoc Name]</h3>
+                    <p style="color: #666; margin-bottom: 1rem;">Postdoctoral Researcher</p>
+                    <p>Research focus: Add research interests and current projects</p>
+                </div>
+                
+                <div class="member-card">
+                    <div class="member-photo">GS</div>
+                    <h3 style="color: #1e3c72;">[Graduate Student Name]</h3>
+                    <p style="color: #666; margin-bottom: 1rem;">Ph.D. Student</p>
+                    <p>Research focus: Add research interests and thesis topic</p>
+                </div>
+                
+                <div class="member-card">
+                    <div class="member-photo">UG</div>
+                    <h3 style="color: #1e3c72;">[Undergraduate Name]</h3>
+                    <p style="color: #666; margin-bottom: 1rem;">Undergraduate Researcher</p>
+                    <p>Research focus: Add current project and interests</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Publications Section -->
+        <section id="publications" class="section">
+            <h2 class="section-title">Selected Publications</h2>
+            
+            <div class="publication">
+                <div class="publication-title">[Add Your Recent Publication Title]</div>
+                <div class="publication-authors">[Author List with Your Name]</div>
+                <div class="publication-journal">[Journal Name, Volume, Pages (Year)]</div>
+            </div>
+            
+            <div class="publication">
+                <div class="publication-title">[Add Another Publication]</div>
+                <div class="publication-authors">[Author List]</div>
+                <div class="publication-journal">[Journal Information]</div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 2rem; color: #666;">
+                <em>For a complete list of publications, please visit our 
+                <a href="#" style="color: #2a5298;">Google Scholar profile</a></em>
+            </p>
+        </section>
+
+        <!-- Research Section -->
+        <section id="research" class="section">
+            <h2 class="section-title">Research Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">🔬</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Metamaterial Design</h3>
+                        <p>Add description of your metamaterials research, applications, and current projects.</p>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">💎</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Plasmonic Devices</h3>
+                        <p>Describe your plasmonic research, sensing applications, and device development.</p>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">🌟</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Quantum Nanophotonics</h3>
+                        <p>Detail your quantum optics research, single photon sources, and quantum applications.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Archive Section -->
+        <section id="news" class="section">
+            <h2 class="section-title">News Archive</h2>
+            
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="news-archive-item">
+                    <div class="news-archive-date">August 2025</div>
+                    <div class="news-archive-text">
+                        <strong>Website Launch</strong><br>
+                        <span style="color: #666; font-size: 0.95rem;">Our new research group website is now live with updated design and content management system.</span>
+                    </div>
+                </div>
+                
+                <div class="news-archive-item">
+                    <div class="news-archive-date">Coming Soon</div>
+                    <div class="news-archive-text">
+                        <strong>Add Your News Here</strong><br>
+                        <span style="color: #666; font-size: 0.95rem;">Replace this with your actual news items - grants, publications, conferences, awards, etc.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Join Section -->
+        <section id="join" class="section">
+            <h2 class="section-title">Join Us</h2>
+            
+            <div class="opening-card">
+                <h3 class="opening-title">Postdoctoral Researcher Position</h3>
+                <p><strong>Duration:</strong> 2-3 years</p>
+                <p><strong>Requirements:</strong> Ph.D. in Physics, Electrical Engineering, or related field.</p>
+                <p><strong>Description:</strong> Add details about the position, research focus, and application requirements.</p>
+            </div>
+            
+            <div class="opening-card">
+                <h3 class="opening-title">Graduate Student Opportunities</h3>
+                <p><strong>Duration:</strong> 4-5 years</p>
+                <p><strong>Requirements:</strong> Strong academic background in physics or engineering.</p>
+                <p><strong>Description:</strong> Describe available Ph.D. and M.S. opportunities in your research areas.</p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <h2 class="section-title">Contact</h2>
+            
+            <div style="background: white; padding: 3rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 2rem;">
+                    <div>
+                        <h3 style="color: #1e3c72; margin-bottom: 1rem;">Get in Touch</h3>
+                        <p style="margin-bottom: 1rem;">Interested in our research or joining the group?</p>
+                        <p style="color: #2a5298; font-weight: 600; margin-bottom: 1rem;">[your-email@university.edu]</p>
+                        <p style="color: #666; font-size: 0.9rem;">Please include your CV and research interests when contacting us.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 style="color: #1e3c72; margin-bottom: 1rem;">Lab Information</h3>
+                        <p><strong>Location:</strong> [Building Name], Room [Number]</p>
+                        <p><strong>Address:</strong> [University Name]<br>[Department]<br>[Full Address]</p>
+                        <p><strong>Phone:</strong> [Phone Number]</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #eee;">
+                    <h3 style="color: #1e3c72; margin-bottom: 1rem;">Follow Our Research</h3>
+                    <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                        <a href="#" style="color: #2a5298; text-decoration: none; font-weight: 500;">📚 Google Scholar</a>
+                        <a href="#" style="color: #2a5298; text-decoration: none; font-weight: 500;">🔬 ResearchGate</a>
+                        <a href="#" style="color: #2a5298; text-decoration: none; font-weight: 500;">🐦 Twitter</a>
+                        <a href="#" style="color: #2a5298; text-decoration: none; font-weight: 500;">💼 LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Shi Photonics Group. All rights reserved.</p>
+            <p>[University Name] | [Department] | [Address]</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links and sections
+                navLinks.forEach(l => l.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Show corresponding section
+                const targetId = link.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth animations on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.member-card, .project-card, .publication, .opening-card, .news-archive-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
